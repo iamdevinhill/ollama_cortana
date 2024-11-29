@@ -57,7 +57,7 @@ class VoiceAssistant:
             self.logger.error(f"Ollama request error: {e}")
             return "Sorry, I'm experiencing technical difficulties."
 
-    def listen_for_input(self, wake_word="Hey Cortana"):
+    def listen_for_input(self, wake_word="hey cortana"):
         while True:
             try:
                 audio = None
@@ -83,9 +83,9 @@ class VoiceAssistant:
         try:
             audio = None
             with self.microphone as source:
-                self.recognizer.adjust_for_ambient_noise(source, duration=.5)
+                self.recognizer.adjust_for_ambient_noise(source, duration=1)
                 self.speak("How can I help?")
-                audio = self.recognizer.listen(source, timeout=.5)
+                audio = self.recognizer.listen(source, timeout=5)
             
             if audio:
                 user_query = self.recognizer.recognize_google(audio)
