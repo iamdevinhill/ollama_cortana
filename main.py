@@ -6,20 +6,30 @@ import sys
 
 class VoiceAssistant:
     def __init__(self):
+        # Set up logging
         logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger(__name__)
 
+        # Initialize the recognizer and microphone
         self.recognizer = sr.Recognizer()
         self.microphone = sr.Microphone()
-        
+
+        # Initialize the speech engine
         self.engine = pyttsx3.init()
         self.engine.setProperty('rate', 150)
-        
+
+        # Get available voices and set the desired one
+        voices = self.engine.getProperty('voices')
+        self.engine.setProperty('voice', voices[1].id)  # Use voices[1] for the second voice in the list
+
+        # Ollama API settings
         self.ollama_url = 'http://localhost:11434/api/chat'
         self.model = "mistral"
-        
+
+        # Conversation history settings
         self.conversation_history = []
         self.max_history_length = 5
+
 
     def speak(self, text):
         try:
@@ -69,7 +79,7 @@ class VoiceAssistant:
                     self.logger.info(f"Heard: {text}")
                     
                     if wake_word in text:
-                        self.speak("Yes, just a moment.")
+                        self.speak("Hey there.")
                         self.process_user_input()
 
                     if "goodbye cortana" in text:
@@ -107,7 +117,7 @@ class VoiceAssistant:
     def run(self):
         try:
             self.logger.info("Voice Assistant Initialized")
-            self.speak("Voice assistant is ready.")
+            self.speak("Hi, your voice assistant is ready.")
             self.listen_for_input()
         except Exception as e:
             self.logger.critical(f"Critical error in voice assistant: {e}")
