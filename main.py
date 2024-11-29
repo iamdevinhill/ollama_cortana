@@ -1,10 +1,8 @@
 import speech_recognition as sr
 import pyttsx3
 import requests
-import threading
-import queue
-import json
 import logging
+import sys
 
 class VoiceAssistant:
     def __init__(self):
@@ -73,6 +71,10 @@ class VoiceAssistant:
                     if wake_word in text:
                         self.speak("Yes, just a moment.")
                         self.process_user_input()
+
+                    if "goodbye cortana" in text:
+                        self.speak("Goodbye! Shutting down.")
+                        sys.exit()  # Exit the script
             
             except sr.UnknownValueError:
                 continue
