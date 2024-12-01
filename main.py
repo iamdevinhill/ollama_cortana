@@ -157,8 +157,10 @@ class VoiceAssistant:
             
             user_query = self.recognizer.recognize_google(audio)
             self.logger.info(f"User query: {user_query}")
+            self.speak("Let me check.")
                 
             response = self.get_ollama_response(user_query)
+            self.logger.info(f"Response: {response}")
             self.speak(response)
         
         except sr.WaitTimeoutError:
